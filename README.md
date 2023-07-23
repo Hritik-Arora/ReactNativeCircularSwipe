@@ -1,5 +1,17 @@
 # React Native Circular Tab Swipe
-A custom React Native Cyclic Tab  View implementation
+A custom React Native Cyclic Tab  View implementation. The Tab View supports the following functionalities:-
+
+● Support adding and removing of tabs
+
+● Tabs are switchable
+   ○ Clicking on tabs
+      ■ Support switching both Animated and non-Animated using props
+
+   ○ Swiping screen
+      ■ Support cyclic swipes (configurable using props)
+      ■ Supports swipe in either direction on every screen
+      ■ If the user is on the first tab and swipe from left to right, last tab is shown
+      ■ If the user is on the last tab and swipe from right to left, first tab is shown
 
 # Getting Started
 
