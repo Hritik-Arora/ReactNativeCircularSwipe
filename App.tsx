@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <StatusBar
         barStyle="dark-content"
       />
-      <TabView animated />
+      <TabView animated allowSwipe />
     </SafeAreaView>
   );
 }

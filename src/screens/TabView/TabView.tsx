@@ -19,11 +19,13 @@ interface ITab {
 
 interface IProps {
   animated?: boolean;
+  allowSwipe?: boolean;
 }
 
 const TabView: React.FC<IProps> = (props) => {
   const {
     animated = false,
+    allowSwipe = false,
   } = props;
 
   const [tabs, setTabs] = useState<ITab[]>([]); // Color of first tab to be blue
@@ -76,19 +78,25 @@ const TabView: React.FC<IProps> = (props) => {
   }, [tabs, activeTab]);
 
   const handleTouchStart = useCallback((event: GestureResponderEvent) => {
+    if (!allowSwipe) {
+      return;
+    }
     initialTouchCoordinates.current = {
       x: event.nativeEvent.pageX,
       y: event.nativeEvent.pageY,
     };
-  }, []);
+  }, [allowSwipe]);
 
   const handleTouchEnd = useCallback((event: GestureResponderEvent) => {
+    if (!allowSwipe) {
+      return;
+    }
     if (event.nativeEvent.pageX - initialTouchCoordinates.current.x > 50) {
       // Swiped left - show the tab before
       if (animated) {
         Animated.timing(beforeScreenTranslate.current, {
           toValue: 0,
-          duration: 1000,
+          duration: 500,
           useNativeDriver: true,
         }).start(() => {
           setActiveTab(tabs[beforeScreenIndex.current]);
@@ -102,7 +110,7 @@ const TabView: React.FC<IProps> = (props) => {
       if (animated) {
         Animated.timing(afterScreenTranslate.current, {
           toValue: 0,
-          duration: 1000,
+          duration: 500,
           useNativeDriver: true,
         }).start(() => {
           setActiveTab(tabs[afterScreenIndex.current]);
@@ -113,7 +121,7 @@ const TabView: React.FC<IProps> = (props) => {
       }
     }
     initialTouchCoordinates.current = { x: 0, y: 0 };
-  }, [animated, tabs]);
+  }, [animated, tabs, allowSwipe]);
 
   const renderTabViewScreens = useMemo(() => {
     if (!activeTab || tabs.length === 0) {
